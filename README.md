@@ -12,7 +12,9 @@ An endpoint that routes JSON to H2 database or Kafka using Spring Boot
 
 ## Instructions to run:
 
-1. Download and unzip Kafka 2.7.0 (Scala 2.13)
+1. Download and unzip Kafka 2.7.0 (Scala 2.13):
+
+https://kafka.apache.org/downloads
 
 2. Open the folder inside a terminal, and type the following command:
 
@@ -29,7 +31,8 @@ An endpoint that routes JSON to H2 database or Kafka using Spring Boot
 5. With both applications running, you can test the application by sending a POST request to `localhost:8080/sendMessage` in Postman with the following data:
 
 
-`{
+```
+{
   "players": [
     {
       "name": "Sub zero",
@@ -44,15 +47,16 @@ An endpoint that routes JSON to H2 database or Kafka using Spring Boot
       "type": "meh"
     }
   ]
-}`
+}
+```
 
 Note: Kafka topic "novice-players" is created automatically by the class KafkaTopicConfig.java, which references application.properties
 
 6. If "type" is "expert", Player is saved in H2 Database and a positive JSON message is returned to Postman. Here follows the credentials for H2 to inspect the data:
 
-Browser URL: `http://localhost:8080/h2-console`
-JDBC URL: `jdbc:h2:mem:testdb`
-User name: `h2`
+Browser URL: `http://localhost:8080/h2-console`<br>
+JDBC URL: `jdbc:h2:mem:testdb`<br>
+User name: `h2`<br>
 Password: `h2`
 
 7. If "type" is "novice", Player is saved in a Kafka topic and a positive JSON message is returned to Postman. In a new terminal, go to the Kafka folder and write the following to inspect the data:
@@ -61,3 +65,14 @@ Password: `h2`
 
 8. In case the "type" is neither "novice" or "expert", a negative JSON answer is returned to Postman.
 
+9. The following JSON answer should be returned as answer:
+
+```
+{
+    "results": [
+        "player Sub zero stored in DB",
+        "player Scorpion sent to Kafka topic",
+        "player Reptile did not fit"
+    ]
+}
+```
